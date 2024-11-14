@@ -20,9 +20,46 @@ public class CruddemoApplication {
 	public CommandLineRunner commandLineRunner(AppDAO appDAO){
 		return runner -> {
 //			createCourseAndStudents(appDAO);
-			findCourseAndStudents(appDAO);
-
+//			findCourseAndStudents(appDAO);
+//			findStudentsAndCourses(appDAO);
+//			addMoreCourseForStudent(appDAO);
+//			deleteCourse(appDAO);
+			deleteStudent(appDAO);
 		};
+	}
+
+	private void deleteStudent(AppDAO appDAO) {
+		int theId = 1;
+		System.out.println("Deleting the student with the id: " + theId);
+		appDAO.deleteStudentById(theId);
+		System.out.println("Deleted");
+	}
+
+	private void addMoreCourseForStudent(AppDAO appDAO) {
+		int theId = 2;
+		Student tempStudent = appDAO.findStudentAndCoursesByStudentId(theId);
+
+		Course tempCourse1 = new Course("Leviticus");
+		Course tempCourse2 = new Course("Numbers");
+
+		tempStudent.addCourse(tempCourse1);
+		tempStudent.addCourse(tempCourse2);
+
+		System.out.println("Saving student: " + tempStudent);
+		System.out.println("associated courses" + tempStudent.getCourses());
+
+		appDAO.update(tempStudent);
+		System.out.println("Done!!");
+	}
+
+	private void findStudentsAndCourses(AppDAO appDAO) {
+		int theId = 1;
+
+		Student tempStudent = appDAO.findStudentAndCoursesByStudentId(theId);
+		System.out.println("Loaded Courses: " + tempStudent );
+		System.out.println("Students: " +tempStudent.getCourses());
+
+		System.out.println("Done");
 	}
 
 	private void findCourseAndStudents(AppDAO appDAO) {

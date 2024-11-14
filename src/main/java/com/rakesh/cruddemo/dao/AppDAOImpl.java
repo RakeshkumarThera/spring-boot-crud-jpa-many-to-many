@@ -3,6 +3,7 @@ package com.rakesh.cruddemo.dao;
 import com.rakesh.cruddemo.entity.Course;
 import com.rakesh.cruddemo.entity.Instructor;
 import com.rakesh.cruddemo.entity.InstructorDetail;
+import com.rakesh.cruddemo.entity.Student;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -164,5 +165,37 @@ public class AppDAOImpl implements AppDAO{
         Course course = query.getSingleResult();
 
         return course;
+    }
+
+    @Override
+    public Student findStudentAndCoursesByStudentId(int theId) {
+        //create query
+        TypedQuery<Student> query = entityManager.createQuery(
+                "select s from Student s " +
+                        "JOIN FETCH s.courses " +
+                        "where s.id = :data", Student.class);
+
+        query.setParameter("data", theId);
+
+        //execute query
+        Student student = query.getSingleResult();
+
+        return student;
+    }
+
+    @Override
+    @Transactional
+    public void update(Student tempStudent) {
+        entityManager.merge(tempStudent);
+    }
+
+    @Override
+    @Transactional
+    public void deleteStudentById(int theId) {
+        //retrieve student
+        Student tempStudent = entityManager.find(Student.class, theId);
+
+        //delete the student
+        entityManager.remove(tempStudent);
     }
 }

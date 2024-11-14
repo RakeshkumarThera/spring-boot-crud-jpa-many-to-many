@@ -3,6 +3,7 @@ package com.rakesh.cruddemo.dao;
 import com.rakesh.cruddemo.entity.Course;
 import com.rakesh.cruddemo.entity.Instructor;
 import com.rakesh.cruddemo.entity.InstructorDetail;
+import com.rakesh.cruddemo.entity.Student;
 
 import java.util.List;
 
@@ -35,4 +36,10 @@ public interface AppDAO {
     Course findCourseAndReviewsByCourseId(int theId);
 
     Course findCourseAndStudentsByCourseId(int theId);
+
+    Student findStudentAndCoursesByStudentId(int theId);
+
+    void update(Student tempStudent);
+
+    void deleteStudentById(int theId);
 }
