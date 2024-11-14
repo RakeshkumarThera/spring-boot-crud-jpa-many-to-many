@@ -20,7 +20,7 @@ public class Student {
     @Column(name = "email")
     private String email;
 
-    private Student(){
+    public Student(){
 
     }
 
