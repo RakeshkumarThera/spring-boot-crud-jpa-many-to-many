@@ -1,10 +1,7 @@
 package com.rakesh.cruddemo;
 
 import com.rakesh.cruddemo.dao.AppDAO;
-import com.rakesh.cruddemo.entity.Course;
-import com.rakesh.cruddemo.entity.Instructor;
-import com.rakesh.cruddemo.entity.InstructorDetail;
-import com.rakesh.cruddemo.entity.Review;
+import com.rakesh.cruddemo.entity.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -22,8 +19,34 @@ public class CruddemoApplication {
 	@Bean
 	public CommandLineRunner commandLineRunner(AppDAO appDAO){
 		return runner -> {
+//			createCourseAndStudents(appDAO);
+			findCourseAndStudents(appDAO);
 
 		};
+	}
+
+	private void findCourseAndStudents(AppDAO appDAO) {
+		int theId = 10;
+
+		Course tempCourse = appDAO.findCourseAndStudentsByCourseId(theId);
+		System.out.println("Loaded Courses: " + tempCourse );
+		System.out.println("Students: " +tempCourse.getStudents());
+
+		System.out.println("Done");
+	}
+
+	private void createCourseAndStudents(AppDAO appDAO) {
+		 Course tempCourse = new Course("Exodus");
+		 Student tempStudent1 = new Student("Rakesh", "Thera", "rakeshkumarthera@gmail.com");
+		 Student tempStudent2 = new Student("Reshma", "Thera", "reshma94penumudi@gmail.com");
+
+		 tempCourse.addStudent(tempStudent1);
+		 tempCourse.addStudent(tempStudent2);
+
+		System.out.println("Saving the course: " + tempCourse);
+		System.out.println("Associated Students" + tempCourse.getStudents());
+
+		appDAO.save(tempCourse);
 	}
 
 	private void deleteCourseAndReviews(AppDAO appDAO) {
